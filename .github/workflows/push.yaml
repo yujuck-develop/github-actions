@@ -1,0 +1,9 @@
+name: push-workflow # 생략 가능. 생략 시 파일명이 workflow 이름이 됨
+on: push # 어떤 이벤트에 트리거 시킬 것인지. 여기서는 push 이벤트에 반응
+
+jobs: # 실행시킬 job의 목록
+  push-job: # job 이름
+    runs-on: ubuntu-latest # job의 실행 환경. 여기서는 ubuntu-latest
+    steps: # job의 실행 단계
+      - name: step1 # step의 이름. 생략 가능
+        run: echo hello world # 실행할 스크립트
