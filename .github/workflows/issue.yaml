@@ -13,3 +13,6 @@ jobs:
         run: |
           echo hello world
           echo github actions
+
+# issue는 디폴트 브랜치에서만 트리거된다는 특징이 있음
+# -> 디폴트 브랜치에 workflow 파일이 있어야 함
