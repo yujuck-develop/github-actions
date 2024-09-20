@@ -7,3 +7,7 @@ jobs: # 실행시킬 job의 목록
     steps: # job의 실행 단계
       - name: step1 # step의 이름. 생략 가능
         run: echo hello world # 실행할 스크립트
+      - name: step2
+        run: | # | 를 사용하면 여러 줄의 스크립트를 작성할 수 있음
+          echo hello world
+          echo github actions
