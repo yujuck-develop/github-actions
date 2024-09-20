@@ -1,5 +1,8 @@
 name: pull-request-workflow
-on: pull_request
+# on: pull_request  # 풀리퀘스트가 생성될 떄와 동기화될 때에도 github action이 실행됨
+on:
+  pull_request:
+    types: [opened] # 풀리퀘스트가 생성될 때만 github action이 실행됨
 
 jobs:
   pull-request-job:
@@ -11,3 +14,8 @@ jobs:
         run: |
           echo hello world
           echo github actions
+
+# on: pull_request 라고 작성하면 pull request와 관련된 default activity type이 적용이 됨
+# default activity type은 각 이벤트마다 가지고 있는, 기본적으로 트리거되는 이벤트를 의미하는데
+# pull request의 경우는 open, synchronize, reopen 이벤트가 발생했을 때 github action이 트리거됨
+# open할 때만 트리거되게 하고 싶다면 명시적으로 activity type을 지정해줘야 함.
