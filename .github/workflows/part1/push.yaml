@@ -1,4 +1,4 @@
-name: push-workflow # 생략 가능. 생략 시 파일명이 workflow 이름이 됨
+name: push-workflow1 # 생략 가능. 생략 시 파일명이 workflow 이름이 됨
 on: push # 어떤 이벤트에 트리거 시킬 것인지. 여기서는 push 이벤트에 반응
 
 jobs: # 실행시킬 job의 목록
