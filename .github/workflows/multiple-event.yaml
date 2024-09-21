@@ -1,0 +1,19 @@
+# 하나의 workflow 파일에서 여러 이벤트를 처리할 수 있음
+
+name: multiple-event-workflow
+on: # 트리거할 이벤트를 나열
+  push:
+  issues:
+    type: [opened]
+  workflow_dispatch:
+
+jobs:
+  multiple-event-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step1
+        run: echo hello world
+      - name: step2
+        run: |
+          echo hello world
+          echo github actions
