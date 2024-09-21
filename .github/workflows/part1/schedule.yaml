@@ -1,0 +1,17 @@
+# schedule 이벤트는 특정 시간에 workflow를 실행할 수 있도록 해줌
+# cron 표현식을 사용하여 실행 시간을 설정할 수 있음
+# default branch에서만 동작
+# 경우에 따라서 지정한 시간에 정확히 실행되지 않을 수 있음. github action 사용에 높은 부하가 있으면 딜레이가 발생하거나 실행이 아예 안될 수도 있음
+# 5분 간격, 30분 간격의 작업은 드랍될 가능성이 있음.
+
+name: schedule-workflow
+on:
+  schedule:
+    - cron: "15 * * * *"
+
+jobs:
+  schedule-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: schedule test
+        run: echo "schedule test"
