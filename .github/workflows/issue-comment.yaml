@@ -1,0 +1,21 @@
+# issue comment
+# issue에 comment를 남길 때 뿐만 아니라, pull request에 comment를 남기는 것도 issue comment 트리거됨
+# default branch에서만 동작
+
+name: issue-comment-workflow
+on: issue_comment
+
+jobs:
+  pr-comment:
+    if: ${{ github.event.issue.pull_request }} # job이 실행되기 전에 조건을 검사
+    runs-on: ubuntu-latest
+    steps:
+      - name: pr comment
+        run: echo ${{ github.event.issue.pull_request }}
+
+  issue-comment:
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: issue comment
+        run: echo ${{ github.event.issue.pull_request }}
