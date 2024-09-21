@@ -1,0 +1,36 @@
+# 사용자가 원할 때 수동으로 트리거할 수 있는 이벤트
+# default branchd에서만 동작
+# 인풋값을 넣을 수 있음. github action 탭에서 직접 입력 가능
+name: workflow-dispatch
+on:
+  workflow_dispatch:
+    inputs: # input을 받을 수 있음
+      name: # input의 이름
+        description: "set name"
+        required: true
+        default: "github-actions"
+        type: string
+      environment:
+        description: "set environment"
+        required: true
+        default: "dev"
+        type: choice # 선택지를 제공
+        options: # 선택지
+          - dev
+          - qa
+          - prod
+
+jobs:
+  workflow-dispatch-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step1
+        run: echo hello world
+      - name: step2
+        run: |
+          echo hello world
+          echo github actions
+      - name: echo inputs
+        run: |
+          echo ${{ inputs.name }}
+          echo ${{ inputs.environment }}
