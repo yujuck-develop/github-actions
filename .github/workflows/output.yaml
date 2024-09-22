@@ -17,11 +17,20 @@ on: push
 jobs:
   create-output:
     runs-on: ubuntu-latest
+    outputs: # job level에서 output을 정의
+      test: ${{ steps.check-output.outputs.test }}
     steps:
       - name: echo output
         id: check-output
-        run: |
+        run: | # output을 생성하는 step. >> $GITHUB_OUTPUT 으로 output 값을 저장
           echo "test=hello" >> $GITHUB_OUTPUT
       - name: check output
         run: |
           echo "output: ${{ steps.check-output.outputs.test }}"
+  get-output:
+    needs: create-output
+    runs-on: ubuntu-latest
+    steps:
+      - name: get output
+        run: |
+          echo "output: ${{ needs.create-output.outputs.test }}"
