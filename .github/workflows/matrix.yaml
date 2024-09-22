@@ -1,0 +1,24 @@
+# matrix
+# 변수 기반으로 여러 job을 실행하는 기능
+# matrix를 사용해서 하나의 job을 구성하면, 여러 개의 잡을 실행하도록 할 수 있음
+# 변수로 node 버전을 설정한다면, 같은 코드베이스로 각 node 버전에 대해 테스트를 실행할 수 있음
+# matrix 기능이 없다면 하나의 job 구성이 아니라 여러 개의 job을 구성해야할 수 있음
+# 변수의 모든 조합에 대해 job을 실행함
+
+# job.strategy.matrix.<변수명> 형태로 정의, ${{ matrix.<변수명> }} 형태로 사용
+
+name: matrix
+on: push
+
+jobs:
+  get-matrix:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        version: [16, 18]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: check matrix
+        run: |
+          echo ${{ matrix.os }} 
+          echo ${{ matrix.version }}
