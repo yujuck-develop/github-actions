@@ -1,0 +1,25 @@
+# timeout
+# 특정 시간 이상 실행되면 자동으로 중단되도록 설정할 수 있음
+# 특정 job 또는 특정 step의 무한 루프를 방지할 수 있음
+# default는 360분
+# jog level, step level에서 설정 가능
+# timeout-minutes 키워드를 사용하여 설정 가능
+
+name: timeout
+on: push
+
+jobs:
+  timeout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: loop
+        run: |
+          count=0  
+          while true; do
+            echo "count: $count"
+            count=$((count+1))
+            sleep 1
+          done
+      - name: echo
+        run: echo "hello"
