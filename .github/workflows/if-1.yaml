@@ -1,0 +1,35 @@
+# if condition
+# 특정 조건이 충족될 때만 실행되도록 하는 데 사용
+# job / step level에서 사용 가능
+
+# filter와 비교
+# filter
+# - 워크플로우 트리거를 더 세밀하게 제어
+# - ex )
+#   - push event
+#   - branch filter: [dev, master] # dev 또는 master 브랜치일 때만 트리거
+
+# if condition
+# - 워크플로우가 트리거된 이후 job과 step을 세밀하게 제어
+# - ex )
+#  - dev branch일 때 첫 번째 job만 실행
+#  - master branch일 때 두 번째 job의 세 번째 step skip
+
+name: if-1
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: get event name
+        run: echo ${{ github.event_name }}
+  job2:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'push'
+    steps:
+      - name: get event name
+        run: echo ${{ github.event_name }}
