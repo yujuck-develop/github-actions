@@ -1,0 +1,27 @@
+# output
+# 한 job에서 생성된 데이터를 해당 job의 다른 step들 또는 다른 job들과 공유할 수 있게 해주는 기능
+# 여러 step과 job 간에 데이터를 전달할 수 있음
+
+# artifact와 output의 차이
+# artifact는 파일 또는 파일 모음으로 데이터를 공유
+# output은 단순한 값을 전달할 때 사용. key-value 형태로 데이터를 저장
+
+# output을 사용하려면 output이 정의된 step의 고유 id를 사용해야함
+# 동일한 output을 가질 때, id로 구분하기 위해 id를 사용
+
+# 다른 job에서 output을 사용하려면 needs 키워드를 사용해야함
+
+name: output
+on: push
+
+jobs:
+  create-output:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo output
+        id: check-output
+        run: |
+          echo "test=hello" >> $GITHUB_OUTPUT
+      - name: check output
+        run: |
+          echo "output: ${{ steps.check-output.outputs.test }}"
