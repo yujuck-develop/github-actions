@@ -11,7 +11,19 @@ on: push
 jobs:
   timeout:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 2 # job level에서의 timeout-minutes 설정
+    # steps:
+    #   - name: loop
+    #     run: |
+    #       count=0
+    #       while true; do
+    #         echo "count: $count"
+    #         count=$((count+1))
+    #         sleep 1
+    #       done
+    #   - name: echo # 위의 스텝이 무한 루프로 실행되면서, job level에 설정한 timeout-minutes에 의해 2분이 지나면 중단됨.
+    #     run: echo "hello"
+
     steps:
       - name: loop
         run: |
@@ -21,5 +33,6 @@ jobs:
             count=$((count+1))
             sleep 1
           done
+        timeout-minutes: 1 # step level에서의 timeout-minutes 설정
       - name: echo
         run: echo "hello"
