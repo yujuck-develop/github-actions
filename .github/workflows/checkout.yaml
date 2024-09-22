@@ -1,0 +1,23 @@
+# checkout
+
+# 깃헙 레포지토리를 가져와 작업을 수행할 수 있게 해주는 액션
+# 깃헙 마켓플리에스에 정의된 공식 액션
+# checkout을 사용하여 테스트 및 빌드 작업을 수행하거나 레포지토리 내용을 CI/CD 워크플로우에서 사용할 수 있음
+
+name: checkout
+on: workflow_dispatch
+
+jobs:
+  no-checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check file list
+        run: cat README.md
+
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: use checkout action
+        uses: actions/checkout@v4
+      - name: check file list
+        run: cat README.md
