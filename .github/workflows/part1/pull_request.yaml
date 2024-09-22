@@ -12,7 +12,7 @@ jobs:
         run: echo hello world
       - name: step2
         run: |
-          echo hello world
+          echo hello world!
           echo github actions
 
 # on: pull_request 라고 작성하면 pull request와 관련된 default activity type이 적용이 됨
