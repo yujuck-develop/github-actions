@@ -1,0 +1,17 @@
+# environment
+# 특정 환경에서만 사용 가능한 환경변수와 secret을 설정할 수 있음
+# 레포지토리에서 정의할 수 있음
+# organization / repository / environment level에서 설정 가능
+# 우선순위 : environment > repository > organization
+
+name: environment
+on: push
+
+jobs:
+  get-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check env & secrets
+        run: |
+          echo ${{ vars.level}}
+          echo ${{ secrets.key }}
