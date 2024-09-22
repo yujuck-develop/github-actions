@@ -1,0 +1,17 @@
+# tag filter
+# 특정 태그에서 실행되도록 설정할 수 있음
+# ex) v1.0.0으로 태깅해야 실행
+# push 이벤트에서만 사용할 수 있음
+
+name: tag-filter
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+" # 정규표현식으로 태그를 필터링할 수 있음. v1.0.0 or v2.2.2와 같은 태그에서만 동작. v1.0 or 1.0.0와 같은 태그는 동작하지 않음
+
+jobs:
+  tag-filter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo hello
+        run: echo hello
