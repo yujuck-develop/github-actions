@@ -1,0 +1,37 @@
+# cache
+# 자주 사용되는 데이터를 빠르게 불러올 수 있도록 저장하는 기능
+# 의존성 설치 시간 단축
+# 깃헙 마켓플레이스에 정의된 공식 액션
+
+name: cache
+on:
+  push:
+    paths:
+      - "my-app/**"
+
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: setup-node
+        uses: actions/setup-node@v3 # Node.js 버전을 install
+        with:
+          node-version: 18
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm # 캐싱할 경로
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # 캐싱 키
+          restore-keys:
+            | # 캐시 복구를 위한 키. 키가 일치하는 캐시가 없을 경우 가장 가까운 키를 찾아서 복구
+            ${{ runner.os }}-node-
+      - name: Install dependencies
+        run: |
+          cd my-app
+          npm ci
+      - name: npm build
+        run: |
+          cd my-app
+          npm run build
