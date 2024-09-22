@@ -1,0 +1,46 @@
+# startsWith, endsWith, contains
+# 문자열에 대한 조건 검사를 수행할 수 있음
+# - 조건이 충족되면 job 또는 step의 실행
+
+# startsWith
+# startsWith(searchString, searchValue)
+# ex ) startsWith('github actions', 'git') => true
+# ex ) startsWith('github actions', 'hub') => false
+
+# endsWith
+# endsWith(searchString, searchValue)
+# ex ) endsWith('github actions', 'ions') => true
+# ex ) endsWith('github actions', 'test') => false
+
+# contains
+# contains(search, item)
+# ex ) contains('github actions', 'act') => true
+# ex ) contains('github actions', 'git') => true
+
+name: string-function
+on: push
+
+jobs:
+  string-function:
+    runs-on: ubuntu-latest
+    steps:
+      - name: startsWith
+        if: startsWith('github actions', 'git')
+        run: echo "git"
+      - name: startsWith
+        if: startsWith('github actions', 'test')
+        run: echo "test"
+
+      - name: endsWith
+        if: endsWith('github actions', 'ions')
+        run: echo "ions"
+      - name: endsWith
+        if: endsWith('github actions', 'test')
+        run: echo "test"
+
+      - name: contains
+        if: contains('github actions', 'act')
+        run: echo "contains act"
+      - name: contains
+        if: contains('github actions', 'git')
+        run: echo "contains git"
