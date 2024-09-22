@@ -1,5 +1,5 @@
 # 사용자가 원할 때 수동으로 트리거할 수 있는 이벤트
-# default branchd에서만 동작
+# default branch에서만 동작
 # 인풋값을 넣을 수 있음. github action 탭에서 직접 입력 가능
 name: workflow-dispatch
 on:
