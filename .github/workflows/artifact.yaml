@@ -17,7 +17,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: artifact-test # artifact 이름
-          paths: ./hello.txt # hello.txt 파일을 artifact로 업로드
+          path: ./hello.txt # hello.txt 파일을 artifact로 업로드
   download-artifact:
     runs-on: ubuntu-latest
     needs: [upload-artifact]
