@@ -9,6 +9,10 @@
 # output을 사용하려면 output이 정의된 step의 고유 id를 사용해야함
 # 동일한 output을 가질 때, id로 구분하기 위해 id를 사용
 
+# output을 사용하는 방법
+# 1. output을 생성하는 step에서 echo "key=value" >> $GITHUB_OUTPUT으로 output을 생성
+# 2. output을 사용하는 step에서 ${{ steps.<step-id>.outputs.<key> }}로 output을 사용
+
 # 다른 job에서 output을 사용하려면 needs 키워드를 사용해야함
 
 name: output
@@ -22,7 +26,7 @@ jobs:
     steps:
       - name: echo output
         id: check-output
-        run: | # output을 생성하는 step. >> $GITHUB_OUTPUT 으로 output 값을 저장
+        run: | # output을 생성하는 step
           echo "test=hello" >> $GITHUB_OUTPUT
       - name: check output
         run: |
