@@ -1,0 +1,15 @@
+# context
+# 워크플로우를 실행하는 환경에 대한 정보
+# 더 유연한 워크플로우를 만들기 위해 사용함
+# github context를 사용해서 조건 설정을 할 수 있음
+# https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions
+
+name: context
+on: workflow_dispatch
+
+jobs:
+  context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: github context
+        run: echo ${{ toJSON(github) }}
