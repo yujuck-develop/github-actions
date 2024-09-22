@@ -12,6 +12,7 @@ jobs:
       - name: exit 1
         run: exit 1
       - name: always
+        if: always() # 항상 실행
         run: echo hello
   job2:
     needs: [job1]
