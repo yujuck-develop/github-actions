@@ -1,0 +1,18 @@
+# re-run
+# 과거에 실행된 워크플로우를 재실행
+# 성공, 실패 여부와 상관없이 재실행 가능
+# 트리거된 그 시점을 다시 실행함
+# -> yaml 파일을 수정하고 다시 re-run해도 수정한 내용은 반영되지 않음
+# -> 수정한 파일이 포함된 후에 워크플로우가 트리거되어야 반영됨
+
+name: re-run
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: cat readme
+        run: cat README.md
