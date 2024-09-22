@@ -26,6 +26,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: artifact-test # 다운로드할 artifact 이름
-          path: ./ # 다운로드할 경로  
-```   - name: check
+          path: ./ # 다운로드할 경로
+      - name: check
         run: cat hello.txt # hello.txt 파일 내용 출력
