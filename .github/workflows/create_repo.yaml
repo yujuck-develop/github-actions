@@ -52,6 +52,32 @@ jobs:
       - name: gh auth login # 깃헙 권한을 사용할 수 있게 로그인함
         run: |
           echo ${{ secrets.PERSONAL_ACCESS_TOKEN }} | gh auth login --with-token
+
       - name: create repository # 입력받은 inputs으로 레포지토리를 생성함
+        id: create-repo # 다른 step에서 생성 결과에 대한 정보를 사용하기 위해 id를 지정함
         run: |
           gh repo create yujuck-develop/${{ inputs.prefix }}-${{ inputs.name }} --public --add-readme
+
+      - name: slack # 슬랙으로 결과를 전송함
+        if: always()
+        uses: slackapi/slack-github-action@v1.27.0 # https://github.com/marketplace/actions/slack-send 슬랙 Actions 사용
+        with:
+          payload: |
+            {
+              "attachments": [
+                {
+                  "pretext": "create repo result",
+                  "color": "28a745",
+                  "fields": [
+                    {
+                      "title": "create repo result ${{ steps.create-repo.outcome }}",
+                      "short": true,
+                      "value": "${{ inputs.prefix }}-${{ inputs.name }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # 슬랙 웹훅 URL을 사용함
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
