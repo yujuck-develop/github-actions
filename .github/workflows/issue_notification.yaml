@@ -1,0 +1,53 @@
+# 상황2
+# - 이슈들의 중요도에 따라 슬랙으로 알림을 받고 싶움
+# - 이슈 생성 시, 이슈 이름에 대한 규칙
+#   - 'critical' 키워드가 있다면 슬랙의 critical-issue 채널로 공유
+#   - 'normal' 키워드가 있다면 슬랙의 normal-issue 채널로 공유
+
+# 고려해야할 점
+# - 이슈가 생성될 때 실행되어야 함
+# - 특정 키워드가 포함되면 슬랙으로 공유되어야 함
+# - 키워드는 변동사항이 생길 수 있음 (추가, 삭제 등) -> 복잡성이 커지면 안되고 관리하기 편해야함
+
+# 복잡성을 줄이기 위한 방법
+# 1. 키워드 관리
+# - 키워드 관리를 깃헙 액션 워크플로우에서 하게 된다면 계속해서 코드가 변경이 되어야 하기 때문에 외부에서 관리하는 방법을 사용해야함
+# - ex) keyword-list.txt 파일을 만들어서 관리
+# - 이렇게 하면 키워드가 추가/삭제 되어도 코드 변경이 필요 없음
+
+# 2. slack step 사용 구조
+# - 키워드마다 step을 사용한다면 동일한 수정사항을 반영하기 위해 모든 step에 수정이 필요함
+# - 키워드 개수와 상관없이 slack step은 1개만 사용하여 워크플로우 로직을 유지할 수 있어야 함
+
+# 3. 동일한 슬랙 웹훅 이름 사용
+# - 슬랙 웹훅 url을 특정 채널로 지정해두면 키워드에 따라 전부 다른 url을 secrets로 관리해야함. ex ) secrets.critical-isse, secrets.normal-issue,..
+# - 키워드와 상관없이 같은 secrets 변수명을 사용하게 된다면 따로 github action 코드를 수정할 필요가 없음
+
+name: issue-notification
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  get-keyword:
+    runs-on: ubuntu-latest
+    outputs:
+      level: ${{ steps.get-keyword.outputs.level }}
+    steps:
+      - name: checkout # checkout을 해야 repository에서 우리가 만든 keyword-list.txt 파일을 가져올 수 있음
+        uses: actions/checkout@v4
+
+      - name: get keyword
+        id: get-keyword
+        run: |
+          echo level=Undefined >> $GITHUB_OUTPUT
+
+          keywords=$(cat keyword-list.txt)
+          for keyword in $keywords; do
+            if [[ "${{ github.event.issue.title }}" =~ "$keyword" ]]; then
+              echo level=$keyword >> $GITHUB_OUTPUT
+            fi
+          done
+
+      - name: get output
+        run: echo ${{ steps.get-keyword.outputs.level }}
