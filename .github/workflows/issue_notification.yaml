@@ -56,7 +56,10 @@ jobs:
     needs: [get-keyword]
     if: needs.get-keyword.outputs.level != 'Undefined'
     runs-on: ubuntu-latest
-    environment: ${{ needs.get-keyword.outputs.level }}
+    # environment: ${{ needs.get-keyword.outputs.level }}
+    strategy:
+      matrix:
+        environment: ['${{ needs.get-keyword.outputs.level }}'] # matrix로 작성하면 github action 탭에서 어떤 환경으로 실행되었는지 눈으로 확인 가능
     steps:
       - name: slack
         uses: slackapi/slack-github-action@v1.27.0
