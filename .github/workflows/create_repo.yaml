@@ -1,0 +1,57 @@
+# 깃헙 레포 생성 자동화
+
+# 상황 1
+
+# - 깃험 레포지토리 생성 시 정해진 prefix를 사용하는 레포지토리를 생성하려고 함
+# - 생성 여부에 대한 결과를 슬랙으로 보내려고 함
+
+# 레포지토리의 이름과 prefix 둘다 항상 같을 수 없음. 고정된 값일 수 없음
+# -> inputs으로 이름을 받아야함!
+# -> inputs 값을 받으려면 workflow_dispatch 트리거를 사용해야함
+
+# 잡 구성 방법은 2가지가 있을 수 있음
+
+# 1. job을 2개 사용
+# - 첫 번째 job : create-repo
+# - 두 번째 job : slack 전송
+
+# 2. job을 1개 사용, step으로 진행
+# - 첫 번째 step : create-repo
+# - 두 번째 step : slack 전송
+
+# job은 각 성격에 다라 분리하는 것이 일반적인 사용 방법
+
+# gh
+# - github cli의 약자로, 터미널에서 gihub 기능을 커맨드로 제어할 수 있음 (레포지토리, 이슈, PR 등을 관리할 수 있음)
+# - github runner에서 기본적으로 사용할 수 있음
+# - https://cli.github.com/manual/
+
+name: create-repo
+on:
+  workflow_dispatch:
+    inputs:
+      prefix:
+        description: 'Repository Prefix'
+        required: true
+        default: 'service'
+        type: choice
+        options:
+          - example
+          - service
+      name:
+        description: 'Repository Name'
+        required: true
+        default: 'github-actions'
+        type: string
+
+jobs:
+  create-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: gh auth login # 깃헙 권한을 사용할 수 있게 로그인함
+        run: |
+          echo ${{ secrets.PERSONAL_ACCESS_TOKEN }} | gh auth login --with-token
+      - name: create repository # 입력받은 inputs으로 레포지토리를 생성함
+        run: |
+          gh repo create yujuck-develop/${{ inputs.prefix }}-${{ inputs.name }} --public --add-readme
