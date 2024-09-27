@@ -7,7 +7,7 @@ name: cache
 on:
   push:
     paths:
-      - "my-app/**"
+      - 'my-app/**'
 
 jobs:
   cache:
@@ -22,10 +22,9 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v3
         with:
-          path: ~/.npm # 캐싱할 경로
+          path: ~/.npm # 캐싱할 경로 (서버에 저장해두는 경로)
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # 캐싱 키
-          restore-keys:
-            | # 캐시 복구를 위한 키. 키가 일치하는 캐시가 없을 경우 가장 가까운 키를 찾아서 복구
+          restore-keys: | # 캐시 복구를 위한 키. 키가 일치하는 캐시가 없을 경우 가장 가까운 키를 찾아서 복구
             ${{ runner.os }}-node-
       - name: Install dependencies
         run: |
